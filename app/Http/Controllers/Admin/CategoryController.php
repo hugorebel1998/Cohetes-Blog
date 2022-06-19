@@ -20,54 +20,65 @@ class CategoryController extends Controller
 
     public function index()
     {
-        
-        return view('admin.categories.index');
-    }
-
-    public function categoryAll()
-    {
         $categorias = Category::all();
-        return response()->json([
-           'categorias' => $categorias 
-        ]);
-
+        return view('admin.categories.index', compact('categorias'));
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $validador = Validator::make($request->all(), [
-            'nombre' => 'required|min:3',
+
+
+        $categoria = new Category();
+        $categoria->name = Str::title($request->nombre);
+        $categoria->slug = Str::slug($request->nombre);
+        $categoria->status = $request->estatus;
+        $categoria->description = $request->descripcion;
+
+        // dd($categoria);
+        if ($categoria->save()) {
+            toastr()->success('Nueva categoria registrada');
+            return redirect()->back();
+        } else {
+            toastr()->error('Algo salio mal!!');
+            return redirect()->back();
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $categoria = Category::findOrFail($id);
+        $request->validate([
+            'nombre'      => 'required|unique:categories,name,' . $categoria->id,
             'estatus' => 'required|in:En existencia,Sin existencia',
-            'descripcion' => 'required'
+            // 'description' => "required"
         ]);
+        $categoria->name = Str::title($request->nombre);
+        $categoria->slug = Str::slug($request->nombre);
+        $categoria->status = $request->estatus;
+        $categoria->description = $request->descripcion;
 
+        // dd($categoria);
 
-
-        if ($validador->fails()) {
-            return response()->json([
-                'status' => 400,
-                'errors' => $validador->messages(),
-            ]);
-        }
-         else {
-            $categoria = new Category;
-            $categoria->name = Str::title($request->nombre);
-            $categoria->slug = Str::slug($request->nombre);
-            $categoria->status = $request->estatus;
-            $categoria->description = $request->descripcion;
-           
-           if($categoria->save())
-            // toastr()->success('Nueva categoria registrada');
-            return response()->json([
-                'status' => 200,
-                'message' => 'Categoria registrada con exito'
-            ]);
+        if ($categoria->save()) {
+            toastr()->info($categoria->name . ' ' . 'Actualizada.');
+            return redirect()->back();
+        } else {
+            toastr()->error('Algo salio mal!!');
+            return redirect()->back();
         }
     }
-
-    public function edit($category)
+    public function delete($id)
     {
-        $categoria = Category::findOrFail($category);
-        dd($categoria);
+        $categoria = Category::findOrFail($id);
+        if ($categoria->delete()){
+
+            toastr()->success('Categoria eliminada con exito');
+            return redirect()->back();
+        }else{
+            toastr()->error('Algo salio mal!!');
+            return redirect()->back();
+
+        }
     }
+            
 }

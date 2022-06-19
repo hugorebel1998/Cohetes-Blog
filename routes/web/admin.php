@@ -10,6 +10,11 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.admin');
 
 // Rutas de categories
 Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
-Route::get('/categories/all', [CategoryController::class, 'categoryAll']);
-
 Route::post('/categories/store', [CategoryController::class, 'store'])->name('admin.categories.store');
+Route::put('/categories/update/{categoria}', [CategoryController::class, 'update'])->name('admin.categories.update');
+Route::delete('/categories/delete/{categoria}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
+
+
+
+// Rutas de productos
+Route::get('/products', [CategoryController::class, 'index'])->name('admin.categories.index');

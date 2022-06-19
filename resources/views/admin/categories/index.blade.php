@@ -1,9 +1,8 @@
 @extends('layouts.home')
 @section('content')
     <div class="container-fluid">
-        <div class="row content-justify-content-center">
+        <div class="row">
             <div class="col-md-12">
-                <ul id="success_list"></ul>
                 <div class="card">
                     <div class="card-header bg-rosa">
                         <div><i class="fas fa-boxes"></i> Gestión de categorias</div>
@@ -32,18 +31,52 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($categorias as $categoria) --}}
+                                @foreach ($categorias as $categoria)
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-
-
+                                        <td>{{ $categoria->id }}</td>
+                                        <td>{{ $categoria->name }}</td>
+                                        <td>{{ $categoria->slug }}</td>
+                                        <td>
+                                            @if ($categoria->status == 'En existencia')
+                                            <span class="badge badge-success">
+                                                {{ $categoria->status }}
+                                            </span>
+                                            @else
+                                            <span class="badge badge-danger">
+                                                {{ $categoria->status }}
+                                            </span>
+                                                
+                                            @endif
+                                        </td>
+                                        <td>{{ $categoria->description }}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-rosa dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                                    Acciones
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{{ $categoria->id }}"
+                                                        data-toggle="modal"
+                                                        data-target="#editCategory{{ $categoria->id }}"><i
+                                                            class="fas fa-edit"></i>
+                                                        Editar categoria
+                                                    </a>
+                                                    <form action="{{ route('admin.categories.delete', $categoria->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item" onclick="return confirm('¿Estas seguro?')">
+                                                            <i class="far fa-trash-alt"></i> 
+                                                            Eliminar categoria</button>
+                                                    </form>
+                                                    {{-- <a class="dropdown-item" href="#">Something else here</a> --}}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        @include('components.modal-edit')
                                     </tr>
-                                {{-- @endforeach --}}
+                                @endforeach
                             </tbody>
                         </table>
                         {{-- </div> --}}
@@ -52,108 +85,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('formulario')
-    <script>
-        $(document).ready(function() {
-        //    Funcion mostrar las catregorias
-        categoryAll();
-
-        function categoryAll()
-        {
-            let url = "./categories/all"
-            $.ajax({
-                type: 'GET',
-                url: url,
-                dataType: 'json', 
-                success: function(resp) {
-                        $('tbody').html("");
-                    $.each(resp.categorias, function(index, categoria)
-                    {
-                        $('tbody').append(`
-                            <tr>
-                                        <td>${categoria.id}</td>
-                                        <td>${categoria.name}</td>
-                                        <td>${categoria.slug}</td>
-                                        <td>${categoria.status}</td>
-                                        <td>${categoria.description}</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-rosa dropdown-toggle" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                                                    Acciones
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#"><i class="fas fa-edit"></i>
-                                                        Editar</a>
-                                                    <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>
-                                                        Eliminar</a>
-                                                    {{-- <a class="dropdown-item" href="#">Something else here</a> --}}
-                                                </div>
-                                            </div>
-                                        </td>
-
-
-                                    </tr>
-                                    `);
-
-                    });
-                }
-            });
-
-        }
-
-
-
-
-            // Funcion guardar categoria
-            $(document).on("click", '.add_Category', function(e) {
-                e.preventDefault();
-                //    console.log("Hoola");
-                let url = "./categories/store";
-                let data = {
-                    'nombre': $('#nombre').val(),
-                    'estatus': $('#estatus').val(),
-                    'descripcion': $('#descripcion').val(),
-                }
-                // console.log(data);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                // console.log(headers);
-
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: data,
-                    dataType: 'json',
-                    success: function(resp) {
-                        // console.log(result)
-                        if (resp.status === 400) {
-                            $('#error_list').html("");
-                            $('#error_list').addClass("alert alert-danger");
-                            $.each(resp.errors, function(index, value) {
-                                $('#error_list').append('<li>' + value + '</li>')
-                            });
-                        }
-
-                        if(resp.status === 200){
-                            $('#success_list').html("");
-                            $('#success_list').addClass("alert alert-success");
-                            $('#success_list').text(resp.message);
-                            $('#addCategory').modal('hide');
-                            $('#formCategory')[0].reset();
-                           
-                            categoryAll();
-
-
-                        }
-                    }
-                });
-            })
-        });
-    </script>
 @endsection
