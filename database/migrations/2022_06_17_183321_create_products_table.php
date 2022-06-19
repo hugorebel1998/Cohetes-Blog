@@ -16,13 +16,13 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->enum('status', ['Activo', 'No activo'])->default('Activo');
-            $table->string('nombre')->unique();
+            $table->string('name')->unique();
             $table->string('slug');
-            $table->decimal('precio', 11,2)->default('0.00');
-            $table->integer('cantidad');
+            $table->decimal('price', 11,2)->default('0.00');
+            $table->integer('cuantity');
             // $table->string('codigo_producto')->nullable();
-            $table->string('imagen_producto');
-            $table->text('descripcion');
+            $table->string('product_image');
+            $table->text('description');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id');
             $table->softDeletes();

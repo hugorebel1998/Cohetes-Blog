@@ -10,6 +10,17 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+
+    /**
+     * This namespace is applied to your controller routes.
+     *
+     * In addition, it is set as the URL generator's root namespace.
+     *
+     * @var string
+     */
+    protected $namespace = 'App\\Http\\Controllers';
+    protected $namespaceAdmin = 'App\\Http\\Controllers\\Admin';
+
     /**
      * The path to the "home" route for your application.
      *
@@ -17,7 +28,9 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/admin/home';
+
+
 
     /**
      * The controller namespace for the application.
@@ -37,15 +50,57 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+        // $this->routes(function () {
+        //     Route::prefix('api')
+        //         ->middleware('api')
+        //         ->namespace($this->namespace)
+        //         ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
+        //     Route::middleware('web')
+        //         ->namespace($this->namespace)
+        //         ->group(base_path('routes/web.php'));
+        // });
+    }
+
+    public function map()
+    {
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
+
+        $this->mapAdminRoutes();
+
+        //
+    }
+
+    protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
+    }
+
+
+    protected function mapWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(function(){
+              require base_path('routes/web/auth.php');
+              require base_path('routes/web/commom.php');
+            });
+            // require base_path('routes/web.php');
+    }
+
+    protected function mapAdminRoutes()
+    {
+        Route::middleware('web',)
+        ->prefix('admin')
+        ->namespace($this->namespaceAdmin)
+        ->group(function(){
+            require base_path('routes/web/admin.php');
+
         });
     }
 

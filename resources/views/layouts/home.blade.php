@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Dashboard</title>
 
+     <!-- CSRF Token -->
+     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -22,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }} ">
 
     <link rel="stylesheet" href="{{ asset('admin-lte/plugins/daterangepicker/daterangepicker.css') }} ">
+     <!-- Styles -->
+     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 <style>
      .bg-rosa {
             background-color: #560134;
@@ -33,9 +39,20 @@
             color: #fff;
         }
 
+        .btn-rosa{
+            background-color: #560134;
+            color: white;
+        }
+
+        .btn-rosa:hover{
+            background-color: #3d0125;
+            color: white;
+        }
+
 </style>
     <link rel="stylesheet" href="{{ asset('admin-lte/plugins/summernote/summernote-bs4.min.css') }}">
 
+    @toastr_css
 
 </head>
 
@@ -125,7 +142,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-boxes"></i>
                                 <p>
                                     Categorias
                                     <i class="right fas fa-angle-left"></i>
@@ -133,9 +150,9 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v1</p>
+                                    <a href="{{ route('admin.categories.index') }}" class="nav-link active">
+                                        <i class="fas fa-list nav-icon"></i>
+                                        <p>Gestion de categorias</p>
                                     </a>
                                 </li>
                                
@@ -144,7 +161,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-box"></i>
                                 <p>
                                     Productos
                                     <i class="right fas fa-angle-left"></i>
@@ -153,8 +170,8 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="./index.html" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v1</p>
+                                        <i class="fas fa-list nav-icon"></i>
+                                        <p>Gestion de productos</p>
                                     </a>
                                 </li>
                                
@@ -203,9 +220,13 @@
 
     </div>
 
-
+    @jquery
+    @toastr_js
+    @toastr_render
     <!-- jQuery -->
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>    <script src="{{ asset('admin-lte/plugins/jquery/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('admin-lte/plugins/jquery/jquery.min.js') }}"></script>
+
     <!-- Bootstrap 4 -->
     <script src="{{ asset('admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
@@ -225,6 +246,9 @@
     <script src="{{ asset('admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }} "></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('admin-lte/dist/js/adminlte.min.js') }}"></script>    
+    <script src="{{ asset('js/table.js') }}"></script>
+
+    @yield('formulario')
 </body>
 
 </html>
