@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['Activo', 'No activo'])->default('Activo');
+            $table->enum('status', ['En existencia', 'Sin existencia'])->default('En existencia');
             $table->string('name')->unique();
             $table->string('slug');
             $table->decimal('price', 11,2)->default('0.00');

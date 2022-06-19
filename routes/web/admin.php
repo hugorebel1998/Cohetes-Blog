@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\HomeController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,4 +17,4 @@ Route::delete('/categories/delete/{categoria}', [CategoryController::class, 'del
 
 
 // Rutas de productos
-Route::get('/products', [CategoryController::class, 'index'])->name('admin.categories.index');
+Route::get('/products', [ProductController::class, 'index'])->name('admin.products.index');

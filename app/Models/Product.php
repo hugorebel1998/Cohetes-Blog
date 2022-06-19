@@ -13,7 +13,7 @@ class Product extends Model
     use SoftDeletes;
 
 
-    protected $table = 'my_flights';
+    protected $table = 'products';
 
     protected $fillable = [
     'status', 'name', 'slug', 'price', 'cuantity', 'product_image', 'description', 'user_id', 'category_id'

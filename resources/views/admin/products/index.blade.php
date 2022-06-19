@@ -5,50 +5,44 @@
             <div class="col-md-11">
                 <div class="card">
                     <div class="card-header bg-rosa">
-                        <div><i class="fas fa-boxes"></i> Gestión de categorias</div>
+                        <div><i class="fas fa-box"></i> Gestión de productos</div>
                     </div>
                     <div class="card-body">
                         <div class="d-flex flex-row-reverse">
                             <div class="p-2">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-rosa" data-toggle="modal" data-target="#addCategory">
+                                <button type="button" class="btn btn-rosa" data-toggle="modal" data-target="#addProduct">
                                     <i class="fas fa-plus"></i> Agregar
                                 </button>
 
-                                @include('components.modal')
+                                @include('components.product-modal')
                             </div>
                         </div>
                         {{-- <div class="table-responsive"> --}}
-                        <table class="table table-striped table-hover" id="example2">
+                        <table class="table table-striped table-hover">
                             <thead style="background: #3d0125; color:white">
                                 <tr class="table-azul">
                                     <th scope="col">#</th>
-                                    <th scope="col">Nombre categoria</th>
-                                    <th scope="col">Slug</th>
+                                    <th scope="col">Nombre</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Imagen</th>
+                                    <th scope="col">Fecha de registro</th>
                                     <th scope="col"></th>
+
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categorias as $categoria)
+                                {{-- @foreach ($categorias as $categoria) --}}
                                     <tr>
-                                        <td>{{ $categoria->id }}</td>
-                                        <td>{{ $categoria->name }}</td>
-                                        <td>{{ $categoria->slug }}</td>
-                                        <td>
-                                            @if ($categoria->status == 'En existencia')
-                                            <span class="badge badge-success">
-                                                {{ $categoria->status }}
-                                            </span>
-                                            @else
-                                            <span class="badge badge-danger">
-                                                {{ $categoria->status }}
-                                            </span>
-                                                
-                                            @endif
-                                        </td>
-                                        <td>{{ $categoria->description }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn btn-rosa dropdown-toggle" type="button"
@@ -56,13 +50,13 @@
                                                     Acciones
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="{{ $categoria->id }}"
+                                                    <a class="dropdown-item" href=""
                                                         data-toggle="modal"
-                                                        data-target="#editCategory{{ $categoria->id }}"><i
+                                                        data-target="#editCategory"><i
                                                             class="fas fa-edit"></i>
                                                         Editar categoria
                                                     </a>
-                                                    <form action="{{ route('admin.categories.delete', $categoria->id) }}"
+                                                    <form action=""
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -74,9 +68,9 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        @include('components.modal-edit')
+                                        {{-- @include('components.modal-edit') --}}
                                     </tr>
-                                @endforeach
+                            
                             </tbody>
                         </table>
                         {{-- </div> --}}

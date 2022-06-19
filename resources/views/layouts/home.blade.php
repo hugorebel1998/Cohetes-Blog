@@ -20,6 +20,10 @@
         href="{{ asset('admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }} ">
 
     <link rel="stylesheet" href="{{ asset('admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }} ">
+     <!-- DataTables -->
+     <link rel="stylesheet" href="{{ asset('admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+     <link rel="stylesheet"
+         href="{{ asset('admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('admin-lte/dist/css/adminlte.min.css?v=3.2.0') }} ">
 
@@ -27,7 +31,7 @@
 
     <link rel="stylesheet" href="{{ asset('admin-lte/plugins/daterangepicker/daterangepicker.css') }} ">
      <!-- Styles -->
-     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 <style>
      .bg-rosa {
             background-color: #560134;
@@ -52,7 +56,7 @@
 </style>
     <link rel="stylesheet" href="{{ asset('admin-lte/plugins/summernote/summernote-bs4.min.css') }}">
 
-    @toastr_css
+    {{-- @toastr_css --}}
 
 </head>
 
@@ -169,7 +173,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link active">
+                                    <a href="{{ route('admin.products.index') }}" class="nav-link active">
                                         <i class="fas fa-list nav-icon"></i>
                                         <p>Gestion de productos</p>
                                     </a>
@@ -220,9 +224,9 @@
 
     </div>
 
-    @jquery
+    {{-- @jquery
     @toastr_js
-    @toastr_render
+    @toastr_render --}}
     <!-- jQuery -->
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>    <script src="{{ asset('admin-lte/plugins/jquery/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('admin-lte/plugins/jquery/jquery.min.js') }}"></script>
